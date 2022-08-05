@@ -1,10 +1,13 @@
 package io.javabrains.coronavirustracker.controllers;
 
+import io.javabrains.coronavirustracker.models.LocationStats;
 import io.javabrains.coronavirustracker.services.CoronavirusDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Controller
 /*we marked this as a controller and not a Rest Controller. Because this controller is not returning a rest
@@ -29,7 +32,13 @@ public class HomeController {
 //    }
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("locationStats", coronavirusDataService.getAllStats() );
+        List<LocationStats> allStats = coronavirusDataService.getAllStats();
+        int totalReportedCases = allStats.stream().mapToInt(l -> l.getLatestTotalCases()).sum();
+        int totalNewCases = allStats.stream().mapToInt(s -> s.getDiffFromPreviousDay()).sum();
+        model.addAttribute("locationStats", allStats);
+        model.addAttribute("totalReportedCases", totalReportedCases);
+        model.addAttribute("totalNewCases", totalNewCases);
+
         return "home";
     }
 

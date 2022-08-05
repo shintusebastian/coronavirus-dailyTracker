@@ -54,13 +54,17 @@ public class CoronavirusDataService {
             LocationStats locationStat = new LocationStats();
             locationStat.setState(record.get("Province/State"));
             locationStat.setCountry(record.get("Country/Region"));
-            locationStat.setLatestTotalCases(Integer.parseInt(record.get(record.size() - 1)));
+            int latestCases = Integer.parseInt(record.get(record.size() - 1));
+            int prevDayCases= Integer.parseInt(record.get(record.size() - 2));
+            locationStat.setLatestTotalCases(latestCases);
+            locationStat.setDiffFromPreviousDay(latestCases - prevDayCases);
+
             //record.size() will give us the last column in the record.
             //record.get() gives us a string. So, we parsed it into an Integer.
 
 //            String state = record.get("Province/State");
 //            System.out.println(state);
-            System.out.println(locationStat);
+//            System.out.println(locationStat);
             newStats.add(locationStat);
 
         }

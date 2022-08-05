@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Coronavirus-Tracking</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+</head>
+
+<body>
+
+<!--<p th:text="${testName}">TEST</p>
+ This paragraph tag refers to the attribute in the Model. There is a placeholder in
+ this tag. When we don't have a value, we can provide a text in this placeholder. But, we have a value in the
+ testName, so we don't need a placeholder.
+ We can get all the values which are sitting in a service to the model-->
+
+<table>
+    <tr>
+        <th>State</th>
+        <th>Country</th>
+        <th>Total cases reported</th>
+    </tr>
+    <tr th:each="locationStat : ${locationStats}"><!-- locationStat is the loop variable name and locationStats is the actual
+     variable name which we loop through-->
+        <td th:text="${locationStat.state}"></td>
+        <td th:text="${locationStat.country}"></td>
+        <td th:text="${locationStat.latestTotalCases}">0</td>
+    </tr>
+</table>
+
+</body>
+</html>
